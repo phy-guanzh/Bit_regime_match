@@ -1,0 +1,10 @@
+numpy>=1.21,<1.24
+matplotlib~=3.3.4
+torch==2.0.1
+iisignature~=0.24
+tqdm~=4.65.0
+scikit-learn==1.2.2
+git+https://github.com/phy-guanzh/higherOrderKME.git
+scipy>=1.8,<1.11
+pandas~=1.5.0
+seaborn~=0.12.2
