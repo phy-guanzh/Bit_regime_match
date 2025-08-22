@@ -10,6 +10,7 @@ import itertools
 import matplotlib.pyplot as plt
 import seaborn as sns
 import networkx as nx
+import scipy.stats as stats
 from tqdm import tqdm
 from models.lead_lag_measure import get_lead_lag_matrix
 from models.herm_matrix_algo import get_ordered_clustering
@@ -185,3 +186,26 @@ def permute_feature_cluster(seed, test_statistic_fn, feature, clusters):
     test_statistic = compute_test_statistic(test_statistic_fn, feature, clusters)
 
     return test_statistic
+
+# winsorization function for a single stock
+def winsorize_stock(stock_returns, lower_percentile, upper_percentile):
+    return stats.mstats.winsorize(stock_returns, limits=[lower_percentile, 1-upper_percentile])
+
+def standardize_returns(returns):
+    """
+    Standardizes asset returns such that their mean is zero and standard deviation is one.
+
+    Parameters:
+    returns (pd.DataFrame): DataFrame with asset returns where rows are time periods and columns are assets.
+
+    Returns:
+    pd.DataFrame: Standardized returns with mean 0 and standard deviation 1.
+    """
+    # Compute mean and standard deviation for each asset
+    mean_returns = returns.mean()
+    std_returns = returns.std()
+
+    # Standardize returns
+    standardized_returns = (returns - mean_returns) / std_returns
+
+    return standardized_returns
